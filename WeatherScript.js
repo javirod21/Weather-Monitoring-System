@@ -43,8 +43,12 @@ function updateCondition() {
 }
 
 function updateStats() {
-    document.getElementById("currTemp").innerHTML = "Temperature: ";
+    getTemperatureDataForStats();
+    getWindDataForStats();
+    document.getElementById("currTemp").innerHTML = "Temperature: " ;
+    
     document.getElementById("currHum").innerHTML = "Humidity: ";
+    
     document.getElementById("currDir").innerHTML = "Wind Direction: ";
     document.getElementById("currSpd").innerHTML = "Wind Speed: ";
     document.getElementById("currRain").innerHTML = "Rain: ";
@@ -54,33 +58,156 @@ function updateStats() {
 //Table Functions
 
 function tableInit(stat) {  //will use stat to decide if we pull form temp, hum, spd, dir, or rain
-    updateTable();
+    if (stat == 't') {
+        updateTable();
+    }
+    
+    
 }
 
 function updateTable() { //hard coded to show 89 degs
-    for (i = 0; i < 24; i++) {
-        if (i < 10)
-            document.getElementById(i.toString()).innerHTML = "0" + i + ":00 ----- 89";
-        else
-            document.getElementById(i.toString()).innerHTML = i + ":00 ----- 89";
-    }
+    //for (i = 0; i < 24; i++) {
+    //    if (i < 10)
+    //        document.getElementById(i.toString()).innerHTML = "0" + i + ":00 ----- 89";
+    //    else
+    //        document.getElementById(i.toString()).innerHTML = i + ":00 ----- 89";
+    //}
+    getTemperatureDataForTables();
 }
 
-/***************************************************************************************************************************************************************************/
+// gets temp data from api for tables
+function getTemperatureDataForTables() {
+    $.ajax({
+        type: "GET",
+        beforeSend: function (xhr) {
 
-function dropDown(itemNum) {
-    var dropdowns = document.getElementsByClassName("dropDownContent");
-    var dropbtns = document.getElementsByClassName("dropbtn");
-    for (i = 0; i < dropdowns.length; i++) {
-        if (i != itemNum)
-            dropdowns[i].classList.remove('show');
-        else 
-            document.getElementById(dropdowns[itemNum].id).classList.toggle("show");
-    }
-    for (i = 0; i < dropdowns.length; i++) {
-        if (dropdowns[i].classList.contains('show'))
-            $(dropbtns[i]).css("background-color", "#2f5477");
-        else
-            $(dropbtns[i]).css("background-color", "#00162b");
-    }
+            xhr.setRequestHeader('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaG9lZnNkYXZpZDk3MDFAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI1MTM2ZmUxZS1mNmQ2LTQ4NGEtYTlkNC03ZTIyZWRhMzIwMzIiLCJuYmYiOiIxNjAxNDA2Mjg1IiwiZXhwIjoiMTYwMzk5ODI4NSJ9.KvqQDCZyAhGBlWJl1wVBeHpT2Enfkr0btC5qV1lJPLg');
+        },
+        url: "https://weatherstationapi.azurewebsites.net/api/TemperatureSensor/GetData",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            //alert(JSON.stringify(data));
+            $("#DIV").html('');
+            var DIV = '';
+            $.each(data, function (i, item) {
+                var rows = "<tr>" +
+                    "<td id='Temperature'>" + item.temperature + "</td>" +
+                    "<td id='Humidity'>" + item.humidity + "</td>" +
+
+                    "<td id='Time Captured'>" + Date(item.dateCaptured,
+                        "dd-MM-yyyy") + "</td>" +
+                    "</tr>";
+                $('#TemperatureTable').append(rows);
+            }); //End of foreach Loop
+            console.log(data);
+        }, //End of AJAX Success function
+
+        failure: function (data) {
+            alert(data.responseText);
+        }, //End of AJAX failure function
+        error: function (data) {
+            alert(data.responseText);
+        } //End of AJAX error function
+    });
 }
+    // retrieves temp and humidity from api for the Current Weather Stats
+    function getTemperatureDataForStats() {
+
+        $.ajax({
+            type: 'GET',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaG9lZnNkYXZpZDk3MDFAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI1MTM2ZmUxZS1mNmQ2LTQ4NGEtYTlkNC03ZTIyZWRhMzIwMzIiLCJuYmYiOiIxNjAxNDA2Mjg1IiwiZXhwIjoiMTYwMzk5ODI4NSJ9.KvqQDCZyAhGBlWJl1wVBeHpT2Enfkr0btC5qV1lJPLg');
+            },
+            url: "https://weatherstationapi.azurewebsites.net/api/TemperatureSensor/GetData",
+
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $.each(data, function (i, temp) {
+                    document.getElementById("currTemp").innerHTML = "Temperature: " + temp.temperature;
+                    document.getElementById("currHum").innerHTML = "Humidity: " + temp.humidity;
+
+                })
+            }
+
+        })
+
+    }
+
+    function getWindDataForStats() {
+        $.ajax({
+            type: 'GET',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaG9lZnNkYXZpZDk3MDFAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI1MTM2ZmUxZS1mNmQ2LTQ4NGEtYTlkNC03ZTIyZWRhMzIwMzIiLCJuYmYiOiIxNjAxNDA2Mjg1IiwiZXhwIjoiMTYwMzk5ODI4NSJ9.KvqQDCZyAhGBlWJl1wVBeHpT2Enfkr0btC5qV1lJPLg');
+            },
+            url: "https://weatherstationapi.azurewebsites.net/api/WindData/GetAllData",
+
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $.each(data, function (i, wind) {
+                    document.getElementById("currDir").innerHTML = "Wind Direction: " + wind.windDirection;
+                    document.getElementById("currSpd").innerHTML = "Wind Speed: " + wind.windSpeed_MPH + " MPH";
+
+                })
+            }
+
+        });
+    }
+
+function getWindDataForTables() {
+    $.ajax({
+        type: "GET",
+        beforeSend: function (xhr) {
+
+            xhr.setRequestHeader('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaG9lZnNkYXZpZDk3MDFAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI1MTM2ZmUxZS1mNmQ2LTQ4NGEtYTlkNC03ZTIyZWRhMzIwMzIiLCJuYmYiOiIxNjAxNDA2Mjg1IiwiZXhwIjoiMTYwMzk5ODI4NSJ9.KvqQDCZyAhGBlWJl1wVBeHpT2Enfkr0btC5qV1lJPLg');
+        },
+        url: "https://weatherstationapi.azurewebsites.net/api/WindData/GetAllData",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            //alert(JSON.stringify(data));
+            $("#DIV").html('');
+            var DIV = '';
+            $.each(data, function (i, item) {
+                var rows = "<tr>" +
+                    "<td id='WindSpeed_Knots'>" + item.windSpeed_Knots + "</td>" +
+                    "<td id='WindSpeed_MPH'>" + item.windSpeed_MPH + "</td>" +
+                    "<td id= 'WindDirection'>" + item.windDirection + "</td>"+
+                    "<td id='Time Captured'>" + Date(item.dateCaptured,
+                        "dd-MM-yyyy") + "</td>" +
+                    "</tr>";
+                $('#WindTable').append(rows);
+            }); //End of foreach Loop
+            console.log(data);
+        }, //End of AJAX Success function
+
+        failure: function (data) {
+            alert(data.responseText);
+        }, //End of AJAX failure function
+        error: function (data) {
+            alert(data.responseText);
+        } //End of AJAX error function
+    });
+}
+
+    /***************************************************************************************************************************************************************************/
+
+    function dropDown(itemNum) {
+        var dropdowns = document.getElementsByClassName("dropDownContent");
+        var dropbtns = document.getElementsByClassName("dropbtn");
+        for (i = 0; i < dropdowns.length; i++) {
+            if (i != itemNum)
+                dropdowns[i].classList.remove('show');
+            else
+                document.getElementById(dropdowns[itemNum].id).classList.toggle("show");
+        }
+        for (i = 0; i < dropdowns.length; i++) {
+            if (dropdowns[i].classList.contains('show'))
+                $(dropbtns[i]).css("background-color", "#2f5477");
+            else
+                $(dropbtns[i]).css("background-color", "#00162b");
+        }
+    }
+
