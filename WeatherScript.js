@@ -55,25 +55,6 @@ function updateStats() {
 }
 
 /***************************************************************************************************************************************************************************/
-//Table Functions
-
-function tableInit(stat) {  //will use stat to decide if we pull form temp, hum, spd, dir, or rain
-    if (stat == 't') {
-        updateTable();
-    }
-    
-    
-}
-
-function updateTable() { //hard coded to show 89 degs
-    //for (i = 0; i < 24; i++) {
-    //    if (i < 10)
-    //        document.getElementById(i.toString()).innerHTML = "0" + i + ":00 ----- 89";
-    //    else
-    //        document.getElementById(i.toString()).innerHTML = i + ":00 ----- 89";
-    //}
-    getTemperatureDataForTables();
-}
 
 // gets temp data from api for tables
 function getTemperatureDataForTables() {
