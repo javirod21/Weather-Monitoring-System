@@ -75,7 +75,6 @@ function getTemperatureDataForTables() {
                 var rows = "<tr>" +
                     "<td id='Temperature'>" + item.temperature + "</td>" +
                     "<td id='Humidity'>" + item.humidity + "</td>" +
-
                     "<td id='Time Captured'>" + Date(item.dateCaptured,
                         "dd-MM-yyyy") + "</td>" +
                     "</tr>";

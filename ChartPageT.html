@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="WeatherStyle.css" />
+</head>
+<h1>Lubbock Weather</h1>
+<body onload="drawLineChart()">
+    <!---------------------- N a v b a r ---------------------->
+    <div class="navbar">
+        <a class="menuItem" href="WeatherPage.html">Current Weather Stats</a>
+        <a href="#" id="graphID" class="dropbtn" onclick="dropDown(0)"><!-- onmouseover="dropDown(0)" onmouseout="dropDown(0)"-->Weather Pattern Graph</a>
+        <a href="#" id="tableID" class="dropbtn" onclick="dropDown(1)"><!-- onmouseover="dropDown(1)" onmouseout="dropDown(1)"-->Weather Pattern Table</a>
+    </div>
+
+    <div id="graphDD" class="dropDownContent">
+        <a href="ChartPageT.html">Temperature</a>
+        <a href="#">Humidity</a>
+        <a href="#">Wind Speed</a>
+        <a href="#">Wind Direction</a>
+        <a href="#">Rain</a>
+    </div>
+
+    <div id="tableDD" class="dropDownContent">
+        <a href="#">Temperature</a>
+        <a href="#">Humidity</a>
+        <a href="TablePageWS.html">Wind Speed</a>
+        <a href="#">Wind Direction</a>
+        <a href="#">Rain</a>
+    </div>
+
+
+    <div style="position:center; top:60px; left:10px; width:720px; height:720px; color:Background{color:azure}">
+        <canvas id="myChart"></canvas>
+
+    </div>
+
+
+    <script src="jquery-3.5.1.min.js"></script>
+    <script src="ChartScript.js"></script>
+    <script src="chartjs-plugin-colorschemes.js"></script>
+</body>
+</html>
+
