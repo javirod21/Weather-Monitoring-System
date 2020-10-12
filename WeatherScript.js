@@ -75,8 +75,7 @@ function getTemperatureDataForTables() {
                 var rows = "<tr>" +
                     "<td id='Temperature'>" + item.temperature + "</td>" +
                     "<td id='Humidity'>" + item.humidity + "</td>" +
-                    "<td id='Time Captured'>" + Date(item.dateCaptured,
-                        "dd-MM-yyyy") + "</td>" +
+                    "<td id='Time Captured'>" + new Date(item.timeCaptured) + "</td>" +
                     "</tr>";
                 $('#TemperatureTable').append(rows);
             }); //End of foreach Loop
@@ -155,8 +154,7 @@ function getWindDataForTables() {
                     "<td id='WindSpeed_Knots'>" + item.windSpeed_Knots + "</td>" +
                     "<td id='WindSpeed_MPH'>" + item.windSpeed_MPH + "</td>" +
                     "<td id= 'WindDirection'>" + item.windDirection + "</td>"+
-                    "<td id='Time Captured'>" + Date(item.dateCaptured,
-                        "dd-MM-yyyy") + "</td>" +
+                    "<td id='Time Captured'>" + new Date(item.dateCaptured) + "</td>" +
                     "</tr>";
                 $('#WindTable').append(rows);
             }); //End of foreach Loop

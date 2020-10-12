@@ -3,9 +3,10 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="WeatherStyle.css" />
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <h1>Lubbock Weather</h1>
-<body onload="drawLineChartTemp()">
+<body onload="drawLineChartWind()">
     <!---------------------- N a v b a r ---------------------->
     <div class="navbar">
         <a class="menuItem" href="WeatherPage.html">Current Weather Stats</a>
@@ -16,7 +17,7 @@
     <div id="graphDD" class="dropDownContent">
         <a href="ChartPageT.html">Temperature</a>
         <a href="#">Humidity</a>
-        <a href="#">Wind Speed</a>
+        <a href="ChartPageWS.html">Wind Speed</a>
         <a href="#">Wind Direction</a>
         <a href="#">Rain</a>
     </div>
@@ -31,9 +32,10 @@
 
 
     <div style="position:center; top:60px; left:10px; width:720px; height:720px; color:Background{color:azure}">
-        <canvas id="myChart"></canvas>
+        <canvas id="myWindChart"></canvas>
 
     </div>
+    <div id="myWindGaugeDiv" style="position:center; top:790px; color:Background{color: azure}"></div>
 
 
     <script src="jquery-3.5.1.min.js"></script>
