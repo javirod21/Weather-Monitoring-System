@@ -30,10 +30,21 @@
     </div>
 
     <!------------ W e a t h e r   T a b l e   f o r   T e m p e r a t u r e ------------>
+
+
     <div class="panel panel-primary">
         <div class="panel-heading">
             Test Data from API
         </div>   <!--end of panel-heading -->
+       
+            <label for="timeSelection">Choose Time:</label>
+            <select id="timeSelection">
+                <option value="24">24-Hour</option>
+                <option value="48">48-Hour</option>
+                
+            </select>
+            <input type="submit" onclick="filterTempData()">
+       
         <div class="panel-body">
             <table class="blueTable" id="TemperatureTable">
                 <tr>
@@ -46,7 +57,10 @@
         </div> <!--end of Panel-body -->
     </div> <!--end of Panel -->
 
+
     <script src="WeatherScript.js"></script>
     <script src="jquery-3.5.1.min.js"></script>
+    
+    
 </body>
 </html>

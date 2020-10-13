@@ -29,7 +29,13 @@
         <a href="#">Rain</a>
     </div>
 
+    <label for="timeSelection">Choose Time:</label>
+    <select id="timeSelection">
+        <option value="24">24-Hour</option>
+        <option value="48">48-Hour</option>
 
+    </select>
+    <input type="submit" onclick="filterTempDataForChart()">
     <div style="position:center; top:60px; left:10px; width:720px; height:720px; color:Background{color:azure}">
         <canvas id="myChart"></canvas>
 

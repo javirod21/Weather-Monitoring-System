@@ -168,6 +168,47 @@ function getWindDataForTables() {
             alert(data.responseText);
         } //End of AJAX error function
     });
+
+    
+}
+
+function filterTempData() {
+    var e = document.getElementById("timeSelection");
+    var timeSelected = e.value;
+    $.ajax({
+        type: "GET",
+        beforeSend: function (xhr) {
+
+            xhr.setRequestHeader('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaG9lZnNkYXZpZDk3MDFAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI1MTM2ZmUxZS1mNmQ2LTQ4NGEtYTlkNC03ZTIyZWRhMzIwMzIiLCJuYmYiOiIxNjAxNDA2Mjg1IiwiZXhwIjoiMTYwMzk5ODI4NSJ9.KvqQDCZyAhGBlWJl1wVBeHpT2Enfkr0btC5qV1lJPLg');
+        },
+        url: "https://weatherstationapi.azurewebsites.net/api/TemperatureSensor/GetDataFilterHours?hour="+ timeSelected ,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            //alert(JSON.stringify(data));
+            $("#DIV").html('');
+            var DIV = '';
+            $.each(data, function (i, item) {
+                var rows = "<tr>" +
+                    "<td id='Temperature'>" + item.temperature + "</td>" +
+                    "<td id='Humidity'>" + item.humidity + "</td>" +
+                    "<td id='Time Captured'>" + new Date(item.timeCaptured) + "</td>" +
+                    "</tr>";
+                $('#TemperatureTable').append(rows);
+            }); //End of foreach Loop
+            console.log(data);
+        }, //End of AJAX Success function
+
+        failure: function (data) {
+            alert(data.responseText);
+        }, //End of AJAX failure function
+        error: function (data) {
+            alert(data.responseText);
+        } //End of AJAX error function
+    });
+    var table = document.getElementById("TemperatureTable");
+    $("#TemperatureTable").load("TablePageT.html #TemperatureTable");
+    
 }
 
     /***************************************************************************************************************************************************************************/
